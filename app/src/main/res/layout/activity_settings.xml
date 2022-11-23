@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingVertical="14dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/ic_arrow"
+        android:iconTint="@color/black"
+        app:iconGravity="textStart"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="14dp"
+        android:text="@string/setting"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp">
+
+
+        <Switch
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dark_theme"
+            android:textSize="16dp"
+            android:layout_marginVertical="@dimen/margin_vertical"
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/margin_end_start"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/impart"
+            android:textSize="16dp"
+            android:layout_marginVertical="@dimen/margin_vertical"
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/margin_end_start"
+
+            />
+    
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_vector2"
+            android:layout_gravity="end"
+            android:layout_marginVertical="@dimen/margin_vertical"
+            android:layout_marginEnd="@dimen/margin_end_start"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/support"
+        android:textSize="16dp"
+        android:layout_marginVertical="@dimen/margin_vertical"
+        android:textColor="@color/black"
+        android:layout_marginStart="@dimen/margin_end_start" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="19dp"
+        android:src="@drawable/ic_impart1"
+        android:layout_gravity="end"
+        android:layout_marginVertical="@dimen/margin_vertical"
+        android:layout_marginEnd="@dimen/margin_end_start"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/agree"
+            android:textSize="16dp"
+            android:layout_marginVertical="@dimen/margin_vertical"
+            android:textColor="@color/black"
+            android:layout_marginStart="@dimen/margin_end_start" />
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_vector3"
+            android:layout_gravity="end"
+            android:layout_marginVertical="@dimen/margin_vertical"
+            android:layout_marginEnd="@dimen/margin_end_start"/>
+    </FrameLayout>
+
+    
+
+
+
+</LinearLayout>
+

@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker2
+package com.practicum.playlistmaker
 
 import org.junit.Test
 
