@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/colorPrimaryVariant"
     android:orientation="vertical"
     android:paddingVertical="14dp">
 
@@ -18,8 +18,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:src="@drawable/ic_arrow"
-        android:iconTint="@color/black"
-        app:iconGravity="textStart"/>
+        app:iconGravity="textStart" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,8 +26,9 @@
         android:layout_marginLeft="64dp"
         android:layout_marginTop="14dp"
         android:text="@string/setting"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size"/>
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="@dimen/text_size"
+        android:fontFamily="@font/ys_display_regular"/>
 
     </FrameLayout>
 
@@ -44,8 +44,12 @@
             android:text="@string/dark_theme"
             android:textSize="16dp"
             android:layout_marginVertical="@dimen/margin_vertical"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/margin_end_start"/>
+            android:textColor="?attr/colorOnPrimary"
+            android:layout_marginStart="@dimen/margin_end_start"
+            android:fontFamily="@font/ys_display_regular"
+            android:layout_alignParentRight="true"
+            android:checked="false"
+            android:theme="@style/SCBSwitch" />
 
     </FrameLayout>
 
@@ -53,16 +57,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <TextView style="@style/TextStyleSetting"
             android:text="@string/impart"
-            android:textSize="16dp"
-            android:layout_marginVertical="@dimen/margin_vertical"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/margin_end_start"
-
-            />
+            android:id="@+id/share_app"/>
     
         <ImageView
             android:layout_width="16dp"
@@ -70,21 +67,16 @@
             android:src="@drawable/ic_vector2"
             android:layout_gravity="end"
             android:layout_marginVertical="@dimen/margin_vertical"
-            android:layout_marginEnd="@dimen/margin_end_start"/>
+            android:layout_marginEnd="@dimen/margin_end_start" />
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView style="@style/TextStyleSetting"
         android:text="@string/support"
-        android:textSize="16dp"
-        android:layout_marginVertical="@dimen/margin_vertical"
-        android:textColor="@color/black"
-        android:layout_marginStart="@dimen/margin_end_start" />
+        android:id="@+id/support"/>
 
     <ImageView
         android:layout_width="20dp"
@@ -99,14 +91,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <TextView style="@style/TextStyleSetting"
             android:text="@string/agree"
-            android:textSize="16dp"
-            android:layout_marginVertical="@dimen/margin_vertical"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/margin_end_start" />
+            android:id="@+id/agree"/>
 
         <ImageView
             android:layout_width="8dp"
@@ -116,10 +103,6 @@
             android:layout_marginVertical="@dimen/margin_vertical"
             android:layout_marginEnd="@dimen/margin_end_start"/>
     </FrameLayout>
-
-    
-
-
 
 </LinearLayout>
 
