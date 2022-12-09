@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">0dp</item>
+    <item name="android:layout_marginStart">@dimen/margin_start</item>
+    <item name="android:layout_marginEnd">@dimen/margin_end</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:backgroundTint">@color/white</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textSize">@dimen/text_size</item>
+    <item name="cornerRadius">16dp</item>
+    <item name="iconGravity">textStart</item>
+    <item name="iconPadding">10dp</item>
+    <item name="iconTint">@color/black</item>
+    <item name="android:inputType">textCapWords</item>
+    <item name="android:fontFamily">@font/ys_display_medium</item>
+</style>
+    <style name="TextStyleSetting">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_marginVertical">@dimen/margin_vertical</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_marginStart">@dimen/margin_end_start</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+
+    </style>
+
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/blue</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/grey
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42221f1f
+        </item>
+    </style>
+
+</resources>
