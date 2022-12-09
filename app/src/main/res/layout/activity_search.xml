@@ -46,6 +46,7 @@
             android:drawableLeft="@drawable/ic_search"
             android:drawablePadding="9dp"
             android:hint="@string/search"
+            android:textColorHint="?attr/colorAccent"
             android:inputType="text"
             android:lines="1"
             android:maxLength="50"

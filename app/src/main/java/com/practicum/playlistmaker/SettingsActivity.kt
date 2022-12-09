@@ -3,47 +3,57 @@ package com.practicum.playlistmaker
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val share = findViewById<TextView>(R.id.share_app)
-        share.setOnClickListener {
-            val intent = Intent()
-            intent.setAction(Intent.ACTION_SEND)
-            intent.putExtra(
-                Intent.EXTRA_TEXT,
-                "https://practicum.yandex.ru/profile/android-developer/"
-            )
-            intent.setType("text/plain")
-            startActivity(intent)
+        val shareTextView = findViewById<TextView>(R.id.share_app)
+        shareTextView.setOnClickListener {
+            Intent().apply {
+                setAction(Intent.ACTION_SEND)
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    getString(R.string.url_course_android_dev)
+                )
+                setType("text/plain")
+                startActivity(this)
+            }
 
         }
-        val support = findViewById<TextView>(R.id.support)
-        support.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.type = "plain/text"
-            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("shchegolyaeva32@yandex.ru"))
-            intent.putExtra(
-                Intent.EXTRA_SUBJECT,
-                "Сообщение разработчикам и разработчицам приложения Playlist Maker"
-            )
-            intent.putExtra(
-                Intent.EXTRA_TEXT,
-                "Спасибо разработчикам и разработчицам за крутое приложение!"
-            )
-            startActivity(Intent.createChooser(intent, ""))
+        val supportTextView = findViewById<TextView>(R.id.support)
+        supportTextView.setOnClickListener {
+            Intent(Intent.ACTION_SEND).apply {
+                type = "plain/text"
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_developer)))
+                putExtra(
+                    Intent.EXTRA_SUBJECT,
+                    getString(R.string.subjectForDevelopers)
+                )
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    getString(R.string.thanksForDevelopers)
+                )
+                startActivity(Intent.createChooser(this, ""))
+            }
         }
 
-        val agree = findViewById<TextView>(R.id.agree)
-        agree.setOnClickListener {
-            val myWebLink = Intent(Intent.ACTION_VIEW)
-            myWebLink.data = Uri.parse("https://yandex.ru/legal/practicum_offer/")
-            startActivity(myWebLink)
+        val agreeTextView = findViewById<TextView>(R.id.agree)
+        agreeTextView.setOnClickListener {
+            Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(getString(R.string.url_practicum_offer))
+                startActivity(this)
+            }
+        }
+
+        val backImageView = findViewById<ImageView>(R.id.back)
+        backImageView.setOnClickListener {
+            finish()
         }
 
 

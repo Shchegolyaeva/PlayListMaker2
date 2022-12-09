@@ -12,20 +12,21 @@ import android.widget.ImageView
 import com.google.android.material.internal.ViewUtils.hideKeyboard
 
 
-class Activity1 : AppCompatActivity() {
+class SearchActivity : AppCompatActivity() {
+
+   var inputSaveText: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_1)
+        setContentView(R.layout.activity_search)
 
         val inputEditText = findViewById<EditText>(R.id.search_content)
+        inputSaveText = inputEditText.text.toString()
         val clearButton = findViewById<Button>(R.id.exit)
-        val reternItem = findViewById<ImageView>(R.id.return_n)
+        val reternItemImageView = findViewById<ImageView>(R.id.return_n)
 
-        reternItem.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
+        reternItemImageView.setOnClickListener {
+            finish()
         }
-
 
         clearButton.setOnClickListener {
             inputEditText.setText("")
@@ -39,8 +40,7 @@ class Activity1 : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
-
-
+                inputSaveText = s.toString()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -49,7 +49,6 @@ class Activity1 : AppCompatActivity() {
 
         }
         inputEditText.addTextChangedListener(simpleTextWatcher)
-
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
@@ -66,14 +65,13 @@ class Activity1 : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val inputEditText = findViewById<EditText>(R.id.search_content)
-        outState.putString(PRODUCT_AMOUNT, inputEditText.text.toString())
+        outState.putString(PRODUCT_AMOUNT, inputSaveText)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         val inputEditText = findViewById<EditText>(R.id.search_content)
-        val text = savedInstanceState.getString(PRODUCT_AMOUNT, "")
+        val text = savedInstanceState.getString(PRODUCT_AMOUNT)
         if (!text.isNullOrEmpty()) {
             inputEditText.setText(text)
 
