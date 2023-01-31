@@ -5,5 +5,11 @@
     <dimen name="text_size">22sp</dimen>
     <dimen name="margin_end_start">16dp</dimen>
     <dimen name="margin_vertical">21dp</dimen>
+    <dimen name="margin_recycler_element">8dp</dimen>
+    <dimen name="image_view">45dp</dimen>
+    <dimen name="text_size_track">16sp</dimen>
+    <dimen name="padding_text_view">5dp</dimen>
+    <dimen name="text_size_track_attribute">11sp</dimen>
+    <dimen name="margin_top_bottom">14dp</dimen>
 </resources>
 

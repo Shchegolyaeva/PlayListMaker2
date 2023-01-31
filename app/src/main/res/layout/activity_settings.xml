@@ -40,6 +40,7 @@
 
 
         <Switch
+            android:id="@+id/switch_theme"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/dark_theme"
@@ -61,15 +62,16 @@
         <TextView style="@style/TextStyleSetting"
             android:text="@string/impart"
             android:id="@+id/share_app"/>
-    
+
         <ImageView
             android:layout_width="16dp"
             android:layout_height="18dp"
             android:src="@drawable/ic_vector2"
-            android:layout_gravity="end"
+            android:layout_gravity="end|center_vertical"
             android:layout_marginVertical="@dimen/margin_vertical"
             android:layout_marginEnd="@dimen/margin_end_start" />
     </FrameLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -83,7 +85,7 @@
         android:layout_width="20dp"
         android:layout_height="19dp"
         android:src="@drawable/ic_impart1"
-        android:layout_gravity="end"
+        android:layout_gravity="end|center_vertical"
         android:layout_marginVertical="@dimen/margin_vertical"
         android:layout_marginEnd="@dimen/margin_end_start"/>
     </FrameLayout>
@@ -100,7 +102,7 @@
             android:layout_width="8dp"
             android:layout_height="14dp"
             android:src="@drawable/ic_vector3"
-            android:layout_gravity="end"
+            android:layout_gravity="end|center_vertical"
             android:layout_marginVertical="@dimen/margin_vertical"
             android:layout_marginEnd="@dimen/margin_end_start"/>
     </FrameLayout>

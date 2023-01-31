@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.internal.ViewUtils.hideKeyboard
 
 
@@ -18,6 +20,13 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        val recycler = findViewById<RecyclerView>(R.id.recyclerView)
+        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.adapter = TrackAdapter()
+
+        val imageTrack = findViewById<ImageView>(R.id.image_track)
+
 
         val inputEditText = findViewById<EditText>(R.id.search_content)
         inputSaveText = inputEditText.text.toString()
