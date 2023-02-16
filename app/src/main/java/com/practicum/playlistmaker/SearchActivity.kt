@@ -25,9 +25,6 @@ class SearchActivity : AppCompatActivity() {
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = TrackAdapter()
 
-        val imageTrack = findViewById<ImageView>(R.id.image_track)
-
-
         val inputEditText = findViewById<EditText>(R.id.search_content)
         inputSaveText = inputEditText.text.toString()
         val clearButton = findViewById<Button>(R.id.exit)
