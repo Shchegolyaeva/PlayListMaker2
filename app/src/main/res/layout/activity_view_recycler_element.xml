@@ -35,7 +35,9 @@
             android:text="Track Title"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="@dimen/text_size_track"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="1" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +53,9 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="@dimen/padding_text_view"
                 android:text="Artist Name"
-                android:textSize="@dimen/text_size_track_attribute" />
+                android:textSize="@dimen/text_size_track_attribute"
+                android:ellipsize="end"
+                android:maxLines="1" />
             <ImageView
 
                 android:id="@+id/image_track"
@@ -69,7 +73,9 @@
                 android:paddingLeft="@dimen/padding_text_view"
                 android:text="Track Time"
                 android:layout_marginEnd="16dp"
-                android:textSize="@dimen/text_size_track_attribute" />
+                android:textSize="@dimen/text_size_track_attribute"
+                android:ellipsize="end"
+                android:maxLines="1"/>
         </LinearLayout>
     </LinearLayout>
 
