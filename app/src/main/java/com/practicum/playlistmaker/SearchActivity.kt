@@ -48,20 +48,10 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        linearNothingFound = findViewById(R.id.error_block_nothing_found)
-        linearNoInternet = findViewById(R.id.error_block_setting)
-        updateButton= findViewById(R.id.button_update)
+        findItem()
+        recyclerSetting()
 
         adapter.trackList = trackList
-
-        placeholderMessage = findViewById(R.id.placeholderMessage)
-        inputEditText = findViewById(R.id.search_content)
-
-        recycler = findViewById<RecyclerView>(R.id.recyclerView)
-        recycler.layoutManager = LinearLayoutManager(this)
-        recycler.adapter = adapter
-
-        val inputEditText = findViewById<EditText>(R.id.search_content)
         inputSaveText = inputEditText.text.toString()
         val clearButton = findViewById<Button>(R.id.exit)
         val reternItemImageView = findViewById<ImageView>(R.id.return_n)
@@ -78,8 +68,6 @@ class SearchActivity : AppCompatActivity() {
         updateButton.setOnClickListener {
             search(lastRequest)
         }
-
-
         reternItemImageView.setOnClickListener {
             finish()
         }
@@ -91,13 +79,10 @@ class SearchActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
             linearNothingFound.visibility = View.GONE
             linearNoInternet.visibility = View.GONE
-
-
         }
 
         val simpleTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -106,7 +91,6 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-
             }
 
         }
@@ -136,7 +120,6 @@ class SearchActivity : AppCompatActivity() {
         val text = savedInstanceState.getString(PRODUCT_AMOUNT)
         if (!text.isNullOrEmpty()) {
             inputEditText.setText(text)
-
         }
     }
 
@@ -161,7 +144,6 @@ class SearchActivity : AppCompatActivity() {
                                 linearNoInternet.visibility = View.GONE
                                 recycler.visibility = View.GONE
                             }
-
                         }
                         else -> {
                             linearNoInternet.visibility = View.VISIBLE
@@ -169,18 +151,30 @@ class SearchActivity : AppCompatActivity() {
                             linearNothingFound.visibility = View.GONE
                             recycler.visibility = View.GONE
                         }
-
                     }
-
                 }
 
                 override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
                     linearNoInternet.visibility = View.VISIBLE
                     linearNothingFound.visibility = View.GONE
                     recycler.visibility = View.GONE
-
                 }
-
             })
+    }
+
+    private fun findItem() {
+        linearNothingFound = findViewById(R.id.error_block_nothing_found)
+        linearNoInternet = findViewById(R.id.error_block_setting)
+        updateButton= findViewById(R.id.button_update)
+
+        placeholderMessage = findViewById(R.id.placeholderMessage)
+        inputEditText = findViewById(R.id.search_content)
+
+        recycler = findViewById<RecyclerView>(R.id.recyclerView)
+    }
+
+    private fun recyclerSetting() {
+        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.adapter = adapter
     }
 }

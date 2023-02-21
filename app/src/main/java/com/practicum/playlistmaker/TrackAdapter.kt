@@ -36,7 +36,7 @@ class TrackAdapter(): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
         fun bind(model: Track) {
             Glide.with(itemView.context)
                 .load(model.artworkUrl100)
-                .placeholder(R.drawable.ic_circular)
+                .placeholder(R.drawable.ic_vector)
                 .centerCrop()
                 .transform(RoundedCorners(10))
                 .into(imageTrack)
