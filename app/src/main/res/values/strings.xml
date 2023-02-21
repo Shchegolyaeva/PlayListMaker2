@@ -13,4 +13,9 @@
     <string name="url_course_android_dev">https://practicum.yandex.ru/profile/android-developer/</string>
     <string name="url_practicum_offer">https://yandex.ru/legal/practicum_offer</string>
     <string name="email_developer">shchegolyaeva32@yandex.ru</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="update">Обновить</string>
+    <string name="internet_not_connect">Проблемы со связью\n\n Загрузка не удалась. Проверьте подключение к интернету</string>
+
 </resources>

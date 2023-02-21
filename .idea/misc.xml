@@ -10,6 +10,8 @@
         <entry key="app/src/main/res/drawable/ic_impart1.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1185" />
         <entry key="app/src/main/res/drawable/ic_library.xml" value="0.1185" />
+        <entry key="app/src/main/res/drawable/ic_light_modi.xml" value="0.131" />
+        <entry key="app/src/main/res/drawable/ic_light_modi_2.xml" value="0.131" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.151" />
         <entry key="app/src/main/res/drawable/ic_setting.xml" value="0.1185" />
         <entry key="app/src/main/res/drawable/ic_switch.xml" value="0.1185" />
@@ -22,7 +24,7 @@
         <entry key="app/src/main/res/layout/activity_media.xml" value="0.265625" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.23600417706144966" />
         <entry key="app/src/main/res/layout/activity_settings.xml" value="0.2266993204752604" />
-        <entry key="app/src/main/res/layout/activity_view_recycler_element.xml" value="0.217156982421875" />
+        <entry key="app/src/main/res/layout/activity_view_recycler_element.xml" value="0.21937255859375002" />
       </map>
     </option>
   </component>
