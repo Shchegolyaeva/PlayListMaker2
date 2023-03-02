@@ -22,11 +22,6 @@ class SettingsActivity : AppCompatActivity() {
         }
         themeSwitcher.isChecked = (applicationContext as App).darkTheme
 
-        //     val switchTheme = findViewById<Switch>(R.id.switch_theme)
-   //     switchTheme.setOnCheckedChangeListener { v, isChecked ->
-   //         AppCompatDelegate.setDefaultNightMode(if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-   //     }
-
         val shareTextView = findViewById<TextView>(R.id.share_app)
         shareTextView.setOnClickListener {
             Intent().apply {
@@ -38,7 +33,6 @@ class SettingsActivity : AppCompatActivity() {
                 setType("text/plain")
                 startActivity(this)
             }
-
         }
         val supportTextView = findViewById<TextView>(R.id.support)
         supportTextView.setOnClickListener {
@@ -64,13 +58,10 @@ class SettingsActivity : AppCompatActivity() {
                 startActivity(this)
             }
         }
-
         val backImageView = findViewById<ImageView>(R.id.back)
         backImageView.setOnClickListener {
             finish()
         }
-
-
     }
 
 }

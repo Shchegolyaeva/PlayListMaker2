@@ -10,15 +10,15 @@ class App : Application() {
 
     var darkTheme = false
 
-    fun isDarkMode(context: Context): Boolean {
-        val darkModeFlag = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+    fun isDarkMode(): Boolean {
+        val darkModeFlag = applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return darkModeFlag == Configuration.UI_MODE_NIGHT_YES
     }
 
     override fun onCreate() {
         super.onCreate()
         val sharedPrefs = getSharedPreferences(SAVE_THEME, MODE_PRIVATE)
-        darkTheme = sharedPrefs.getBoolean(BOOL_KEY, isDarkMode(getApplicationContext()))
+        darkTheme = sharedPrefs.getBoolean(BOOL_KEY, isDarkMode())
         switchTheme(darkTheme)
     }
 

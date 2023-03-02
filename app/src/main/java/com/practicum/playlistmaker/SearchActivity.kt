@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.internal.ViewUtils.hideKeyboard
@@ -19,7 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private lateinit var linearNothingFound: LinearLayout
     private lateinit var linearNoInternet: LinearLayout
@@ -53,32 +55,60 @@ class SearchActivity : AppCompatActivity() {
     private var adapter = TrackAdapter()
     private val historyAdapter = TrackAdapter()
 
+    private lateinit var sharedPrefs: SharedPreferences
+    private lateinit var searchHistory: SearchHistory
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val sharedPrefs = getSharedPreferences(HISTORY_SEARCH, MODE_PRIVATE)
-        val searchHistory = SearchHistory(sharedPrefs)
+        sharedPrefs = getSharedPreferences(HISTORY_SEARCH, MODE_PRIVATE)
+        searchHistory = SearchHistory(sharedPrefs)
 
         findItems()
         recyclerSetting()
         addChangeListeners()
         addButtonListeners()
 
+        sharedPrefs.registerOnSharedPreferenceChangeListener(this)
+
         // Кнопка очищения истории поиска
         cleanHistoryButton.setOnClickListener {
             sharedPrefs.edit().clear().apply()
-            historyAdapter.trackList = searchHistory.get().toCollection(ArrayList())
-            historyAdapter.notifyDataSetChanged()
+            historySearchGroup.isVisible = false
         }
+
+        // Реагирует на смену фокуса в EditText
+        inputEditText.setOnFocusChangeListener { view, hasFocus ->
+            historySearchGroup.isVisible = hasFocus && inputEditText.text.isEmpty() &&
+                searchHistory.get().isNotEmpty()
+        }
+
+        // Реагирует на ввод текста в EditText
+        inputEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                historySearchGroup.visibility = if (inputEditText.hasFocus() && p0?.isEmpty() == true
+                    && searchHistory.get().isNotEmpty()) View.VISIBLE else View.GONE
+                recycler.visibility = if (inputEditText.hasFocus() && p0?.isEmpty() == true) {
+                    trackList.clear()
+                    adapter.notifyDataSetChanged()
+                    View.GONE
+                } else View.VISIBLE
+            }
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
 
         adapter.trackList = trackList
         historyAdapter.trackList = searchHistory.get().toCollection(ArrayList())
 
         inputSaveText = inputEditText.text.toString()
 
-        adapter.itemClickListener = { position, track ->
+        // Реагирует на нажатие песни в поиске
+        adapter.itemClickListener = { _, track ->
             searchHistory.add(track)
         }
     }
@@ -94,6 +124,7 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val PRODUCT_AMOUNT = "PRODUCT_AMOUNT"
         const val HISTORY_SEARCH = "HISTORY_SEARCH"
+        const val KEY_LIST_TRACKS = "tracks_history"
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -123,19 +154,21 @@ class SearchActivity : AppCompatActivity() {
                                 trackList.clear()
                                 trackList.addAll(response.body()?.results!!)
                                 adapter.notifyDataSetChanged()
-                                recycler.visibility = View.VISIBLE
-                                linearNothingFound.visibility = View.GONE
-                                linearNoInternet.visibility = View.GONE
+                                recycler.isVisible = true
+                                linearNothingFound.isVisible = false
+                                linearNoInternet.isVisible = false
                             } else {
-                                linearNothingFound.visibility = View.VISIBLE
-                                linearNoInternet.visibility = View.GONE
-                                recycler.visibility = View.GONE
+                                linearNothingFound.isVisible = true
+                                linearNoInternet.isVisible = false
+                                recycler.isVisible = false
+                                historySearchGroup.isVisible = false
                             }
                         }
                         else -> {
-                            linearNoInternet.visibility = View.VISIBLE
-                            linearNothingFound.visibility = View.GONE
-                            recycler.visibility = View.GONE
+                            linearNoInternet.isVisible = true
+                            linearNothingFound.isVisible = false
+                            recycler.isVisible = false
+                            historySearchGroup.isVisible = false
                         }
                     }
                 }
@@ -164,26 +197,13 @@ class SearchActivity : AppCompatActivity() {
             hideKeyboard(currentFocus ?: View(this))
             trackList.clear()
             adapter.notifyDataSetChanged()
-            linearNothingFound.visibility = View.GONE
-            linearNoInternet.visibility = View.GONE
+            linearNothingFound.isVisible = false
+            linearNoInternet.isVisible = false
+
         }
     }
 
     private fun addChangeListeners() {
-        // Реагирует на смену фокуса в EditText
-        inputEditText.setOnFocusChangeListener { view, hasFocus ->
-            historySearchGroup.visibility = if (hasFocus && inputEditText.text.isEmpty()) View.VISIBLE else View.GONE
-        }
-        // Реагирует на ввод текста в EditText
-        inputEditText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                historySearchGroup.visibility = if (historySearchGroup.hasFocus() && p0?.isEmpty() == true) View.VISIBLE else View.GONE
-            }
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
         // Реагирует на нажатие кнопки на клавиатуре и выполняет поиск
         inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -229,5 +249,12 @@ class SearchActivity : AppCompatActivity() {
         recycler.adapter = adapter
         recyclerViewHistory.layoutManager = LinearLayoutManager(this)
         recyclerViewHistory.adapter = historyAdapter
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key == KEY_LIST_TRACKS) {
+            historyAdapter.trackList = searchHistory.get().toCollection(ArrayList())
+            historyAdapter.notifyDataSetChanged()
+        }
     }
 }
