@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimaryVariant"
@@ -71,6 +72,61 @@
 
     </FrameLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/history_search_group"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/you_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Вы искали"
+            android:textSize="19sp"
+            android:gravity="center"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="12dp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingBottom="20dp"
+            tools:ignore="MissingConstraints">
+        </TextView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_history"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/clean_history_button"
+            app:layout_constraintTop_toBottomOf="@+id/you_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingBottom="24dp"/>
+
+        <Button
+            android:id="@+id/clean_history_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Очистить историю"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="?attr/colorPrimaryVariant"
+            app:backgroundTint="?attr/colorOnPrimary"
+            app:cornerRadius="54dp"
+            android:fontFamily="@font/ys_display_medium"
+            android:inputType="textCapWords" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
     <LinearLayout android:id="@+id/error_block_nothing_found"
@@ -90,7 +146,7 @@
             android:src="@drawable/ic_light_modi" />
 
         <TextView android:id="@+id/placeholderMessage"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAlignment="center"
@@ -118,7 +174,7 @@
             android:src="@drawable/ic_light_modi_2" />
 
         <TextView android:id="@+id/placeholderMessage_2"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAlignment="center"
