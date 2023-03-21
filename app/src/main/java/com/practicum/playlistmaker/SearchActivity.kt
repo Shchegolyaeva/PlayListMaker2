@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
@@ -14,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.internal.ViewUtils.hideKeyboard
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -80,7 +82,7 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
         }
 
         // Реагирует на смену фокуса в EditText
-        inputEditText.setOnFocusChangeListener { view, hasFocus ->
+        inputEditText.setOnFocusChangeListener { _, hasFocus ->
             historySearchGroup.isVisible = hasFocus && inputEditText.text.isEmpty() &&
                 searchHistory.get().isNotEmpty()
         }
@@ -110,7 +112,23 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
         // Реагирует на нажатие песни в поиске
         adapter.itemClickListener = { _, track ->
             searchHistory.add(track)
+            putGsonForAudioPlayerActivity(track)
         }
+
+        historyAdapter.itemClickListener = { _, track ->
+            putGsonForAudioPlayerActivity(track)
+        }
+
+    }
+
+
+
+
+    private fun putGsonForAudioPlayerActivity(track: Track) {
+        val intent = Intent(this, AudioPlayerActivity::class.java).apply {
+            putExtra(AudioPlayerActivity.TRACK_OBJECT, Gson().toJson(track))
+        }
+        startActivity(intent)
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
@@ -233,15 +251,15 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
     private fun findItems() {
         linearNothingFound = findViewById(R.id.error_block_nothing_found)
         linearNoInternet = findViewById(R.id.error_block_setting)
-        clearButton = findViewById<Button>(R.id.exit)
+        clearButton = findViewById(R.id.exit)
         updateButton= findViewById(R.id.button_update)
-        returnItemImageView = findViewById<ImageView>(R.id.return_n)
+        returnItemImageView = findViewById(R.id.return_n)
         cleanHistoryButton = findViewById(R.id.clean_history_button)
         placeholderMessage = findViewById(R.id.placeholderMessage)
         inputEditText = findViewById(R.id.search_content)
         historySearchGroup = findViewById(R.id.history_search_group)
-        recycler = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerViewHistory = findViewById<RecyclerView>(R.id.recycler_view_history)
+        recycler = findViewById(R.id.recyclerView)
+        recyclerViewHistory = findViewById(R.id.recycler_view_history)
     }
 
     private fun recyclerSetting() {
@@ -251,6 +269,7 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
         recyclerViewHistory.adapter = historyAdapter
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key == KEY_LIST_TRACKS) {
             historyAdapter.trackList = searchHistory.get().toCollection(ArrayList())
