@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -42,9 +44,17 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
     private lateinit var inputEditText: EditText
     private lateinit var placeholderMessage: TextView
 
+    private lateinit var progressBar: ProgressBar
+
     private var lastRequest: String = ""
     var inputSaveText: String = ""
     private val itunesBaseUrl = "https://itunes.apple.com"
+
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
+
+    private val searchRunnable = Runnable { search(inputEditText.text.toString()) }
+
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(itunesBaseUrl)
@@ -87,7 +97,7 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
                 searchHistory.get().isNotEmpty()
         }
 
-        // Реагирует на ввод текста в EditText
+        // Реагирует на ввод текста в EditText и через 2 сек производит поиск
         inputEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -99,6 +109,9 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
                     adapter.notifyDataSetChanged()
                     View.GONE
                 } else View.VISIBLE
+                if (inputEditText.text.isNotEmpty()) {
+                    searchDebounce()
+                }
             }
             override fun afterTextChanged(p0: Editable?) {
             }
@@ -112,7 +125,9 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
         // Реагирует на нажатие песни в поиске
         adapter.itemClickListener = { _, track ->
             searchHistory.add(track)
-            putGsonForAudioPlayerActivity(track)
+            if (clickDebounce()) {
+                putGsonForAudioPlayerActivity(track)
+            }
         }
 
         historyAdapter.itemClickListener = { _, track ->
@@ -143,6 +158,8 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
         const val PRODUCT_AMOUNT = "PRODUCT_AMOUNT"
         const val HISTORY_SEARCH = "HISTORY_SEARCH"
         const val KEY_LIST_TRACKS = "tracks_history"
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -160,12 +177,18 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
     }
 
     private fun search(lastText: String) {
+        progressBar.visibility = View.VISIBLE
+        linearNoInternet.isVisible = false
+        linearNothingFound.isVisible = false
+        recycler.isVisible = false
+
         itunesService.search(lastText)
             .enqueue(object : Callback<ItunesResponse> {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(call: Call<ItunesResponse>,
                                         response: Response<ItunesResponse>
                 ) {
+                    progressBar.visibility = View.GONE
                     when (response.code()) {
                         200 -> {
                             if (response.body()?.results?.isNotEmpty() == true) {
@@ -175,11 +198,13 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
                                 recycler.isVisible = true
                                 linearNothingFound.isVisible = false
                                 linearNoInternet.isVisible = false
+                                progressBar.isVisible = false
                             } else {
                                 linearNothingFound.isVisible = true
                                 linearNoInternet.isVisible = false
                                 recycler.isVisible = false
                                 historySearchGroup.isVisible = false
+                                progressBar.isVisible = false
                             }
                         }
                         else -> {
@@ -187,11 +212,13 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
                             linearNothingFound.isVisible = false
                             recycler.isVisible = false
                             historySearchGroup.isVisible = false
+                            progressBar.isVisible = false
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<ItunesResponse>, t: Throwable) {
+                    progressBar.visibility = View.GONE
                     linearNoInternet.visibility = View.VISIBLE
                     linearNothingFound.visibility = View.GONE
                     recycler.visibility = View.GONE
@@ -239,6 +266,7 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
                 inputSaveText = s.toString()
+
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -260,6 +288,7 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
         historySearchGroup = findViewById(R.id.history_search_group)
         recycler = findViewById(R.id.recyclerView)
         recyclerViewHistory = findViewById(R.id.recycler_view_history)
+        progressBar = findViewById(R.id.progressBar)
     }
 
     private fun recyclerSetting() {
@@ -275,5 +304,19 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
             historyAdapter.trackList = searchHistory.get().toCollection(ArrayList())
             historyAdapter.notifyDataSetChanged()
         }
+    }
+    // задерживает кликабельность на песню из списка на одну секунду
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
+    //функция выполняющая отложенный запрос поиска через 2 сек
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
 }
