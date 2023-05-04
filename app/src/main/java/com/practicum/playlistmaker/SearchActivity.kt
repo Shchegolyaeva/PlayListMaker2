@@ -103,12 +103,16 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
             }
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 historySearchGroup.visibility = if (inputEditText.hasFocus() && p0?.isEmpty() == true
-                    && searchHistory.get().isNotEmpty()) View.VISIBLE else View.GONE
+                    && searchHistory.get().isNotEmpty() && !progressBar.isVisible) View.VISIBLE else View.GONE
                 recycler.visibility = if (inputEditText.hasFocus() && p0?.isEmpty() == true) {
                     trackList.clear()
                     adapter.notifyDataSetChanged()
                     View.GONE
-                } else View.VISIBLE
+                } else {
+                    if (linearNoInternet.isVisible || linearNothingFound.isVisible || progressBar.isVisible) {
+                        View.GONE
+                    } else View.VISIBLE
+                }
                 if (inputEditText.text.isNotEmpty()) {
                     searchDebounce()
                 }
@@ -133,10 +137,7 @@ class SearchActivity : AppCompatActivity(), SharedPreferences.OnSharedPreference
         historyAdapter.itemClickListener = { _, track ->
             putGsonForAudioPlayerActivity(track)
         }
-
     }
-
-
 
 
     private fun putGsonForAudioPlayerActivity(track: Track) {
