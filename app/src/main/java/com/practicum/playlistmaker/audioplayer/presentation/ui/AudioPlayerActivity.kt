@@ -9,10 +9,10 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.practicum.playlistmaker.audioplayer.presentation.presenters.AudioPlayerPresenter
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.gson.Gson
+import com.practicum.playlistmaker.audioplayer.domain.Track
 import com.practicum.playlistmaker.audioplayer.presentation.presenters.AudioPlayerView
 import com.practicum.playlistmaker.audioplayer.presentation.presenters.TrackObject
-import com.practicum.playlistmaker.data.audioplayer.AudioPlayerImpl
+import com.practicum.playlistmaker.data.audioplayer.AudioPlayerRepositoryImpl
 import com.practicum.playlistmaker.domain.audioplayer.impl.MediaInteractorImpl
 import java.text.SimpleDateFormat
 import java.util.*
@@ -51,7 +51,7 @@ class AudioPlayerActivity : AppCompatActivity(), AudioPlayerView {
         presenter = AudioPlayerPresenter(
             activity = this,
             view = this,
-            mediaInteractor = MediaInteractorImpl(AudioPlayerImpl(url))
+            mediaInteractor = MediaInteractorImpl(AudioPlayerRepositoryImpl(url))
         )
     }
 

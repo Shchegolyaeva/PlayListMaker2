@@ -1,8 +1,8 @@
-package com.practicum.playlistmaker.domain.audioplayer.api
+package com.practicum.playlistmaker.audioplayer.domain
 
 import com.practicum.playlistmaker.audioplayer.domain.StatePlayer
 
-interface AudioPlayer {
+interface AudioPlayerRepository {
 
     var statePlayer: StatePlayer
     fun getCurrentPosition(): Int

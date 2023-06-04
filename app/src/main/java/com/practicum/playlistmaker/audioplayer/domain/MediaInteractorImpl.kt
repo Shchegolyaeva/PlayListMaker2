@@ -1,12 +1,12 @@
 package com.practicum.playlistmaker.domain.audioplayer.impl
 
 import com.practicum.playlistmaker.audioplayer.domain.StatePlayer
-import com.practicum.playlistmaker.domain.audioplayer.api.AudioPlayer
+import com.practicum.playlistmaker.audioplayer.domain.AudioPlayerRepository
 import com.practicum.playlistmaker.domain.audioplayer.api.MediaInteractor
 
 
 class MediaInteractorImpl(
-    private val player: AudioPlayer
+    private val player: AudioPlayerRepository
 ) : MediaInteractor {
 
     override fun startPlaying() {
