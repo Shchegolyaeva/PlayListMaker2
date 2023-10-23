@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.audioplayer.domain
 
 data class Track(val trackName: String,
                  val artistName: String,

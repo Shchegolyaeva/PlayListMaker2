@@ -1,9 +1,8 @@
 package com.practicum.playlistmaker
 
-import android.app.Application
 import android.content.SharedPreferences
-import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.practicum.playlistmaker.audioplayer.domain.Track
 
 class SearchHistory (sharedPreferences: SharedPreferences) {
 
